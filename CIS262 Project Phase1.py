@@ -10,7 +10,7 @@ def get_input(prompt, min_val=0, max_val=float('inf')):
     while True:
         try:
             value = float(input(prompt))
-            if min_val <= value <= max_val:
+            if min_val < value < max_val:
                 return value
             else:
                 print(f"Input must be between {min_val} and {max_val}.")
@@ -31,8 +31,7 @@ def display_employee(name, hours, rate, gross, tax_rate, tax, net):
     print(f"Hours Worked    : {hours}")
     print(f"Hourly Rate     : ${rate:.2f}")
     print(f"Gross Pay       : ${gross:.2f}")
-    print(f"Tax Rate        : {tax_rate:.2%}")
-    print(f"Tax Deducted    : ${tax:.2f}")
+    print(f"Income Tax Rate : {tax_rate:.2%}")
     print(f"Net Pay         : ${net:.2f}")
     print("====================================\n")
 
@@ -47,7 +46,7 @@ def display_totals(emps, hours, gross, tax, net):
     print("===================================\n")
 
 def main():
-    # Initialize accumulators for totals
+    # Initializing accumulators for totals
     total_emps = 0
     total_hours = 0
     total_gross = 0
