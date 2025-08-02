@@ -10,7 +10,7 @@ def get_input(prompt, min_val=0, max_val=float('inf')):
     while True:
         try:
             value = float(input(prompt))
-            if min_val < value < max_val:
+            if min_val <= value <= max_val:
                 return value
             else:
                 print(f"Input must be between {min_val} and {max_val}.")
@@ -24,7 +24,7 @@ def calculate_pay(hours, rate, tax_rate):
     net_pay = gross_pay - tax
     return gross_pay, tax, net_pay
 
-def display_employee(name, hours, rate, gross, tax_rate, tax, net):
+def display_employee(name, hours, rate, gross, tax_rate,tax,net):
     """Display information for a single employee"""
     print("\n======= Employee Information =======")
     print(f"Employee Name   : {name}")
