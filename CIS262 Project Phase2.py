@@ -86,12 +86,12 @@ def main():
         if name.lower() == "end":
             break
 
-        from_date, to_date= get_date()
+        from_date, to_date= get_dates()
         hours = get_input("Enter number of hours worked: ", 0)
         rate = get_input("Enter hourly rate: ", 0)
         tax_rate = get_input("Enter income tax rate (as a decimal): ", 0, 1)
 
-        employee_data.append((name, from_date, to_date, rate, tax_rate))
+        employee_data.append((name, from_date, to_date,hours, rate, tax_rate))
 
     if employee_data:
         totals=process_employees(employee_data)
