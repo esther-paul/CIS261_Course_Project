@@ -1,38 +1,52 @@
 # Esther Paul
-# CIS261 Project Phase 3
+# CIS261 Project Phase 4
 # August 21, 2025
 
 from datetime import datetime
 
 ################################################################################
 # CLASS
-class User:
-    def __init__(self, username, password, role):
-        self.username = username
+class Login:
+    def __init__(self, userid, password, role):
+        self.username = userid
         self.password = password
         self.role = role
 
     def __str__(self):
         return f"{self.username}|{self.password}|{self.role}"
 ################################################################################
+
 def CreateUsers():
     print('##### Create users, passwords, and roles #####')
     # Opening the file Users.txt in append mode
     UserFile = open("Users.txt", "a+")
+
+    UserFile.seek(0)
+    existing_users = []
+
+    for line in UserFile:
+        parts = line.strip().split("|")
+        if len(parts) >= 1:
+            existing_users.append(parts[0])
 
     while True:
         # calling function GetUserName and assigning the return value to username
         username = GetUserName()
         if (username.upper() == "END"):
             break
+
+        if username in existing_users:
+            print("User ID already exists, please enter a different username.")
+            continue
         # Calling function GetUserPassword and assigning the return value to userpwd
         userpwd = GetUserPassword()
         # calling function GetUserRole() and assigning the return value to userrole
         userrole = GetUserRole()
 
-        # Using the User class
-        user = User(username, userpwd, userrole)
+        # An instance of the LogIn class
+        user = Login(username, userpwd, userrole)
         UserFile.write(str(user) + "\n")
+        existing_users.append(username)
 
     # Closing the file UserFile
     UserFile.close()    
@@ -69,16 +83,18 @@ def printuserinfo():
 
 ############################################################################################
 
-def Login():
+def login():
     # opening file Users.txt in read mode
     UserFile = open("Users.txt","r")
     
     UserName = input("Enter User Name: ")
+    UserPwd = input("Enter Password: ")
     UserRole = "NONE"
     while True:
        # reading a line from UserFile and assign it to UserDetail
        UserDetail = UserFile.readline()
        if not UserDetail:
+           print(f"User {UserName} does not exist.")
            return UserRole, UserName
        # replacing the carriage return in UserDetail
        UserDetail = UserDetail.replace("\n","")
@@ -86,8 +102,12 @@ def Login():
        UserList = UserDetail.split("|")
                   
        if UserName == UserList[0]:
-            UserRole = UserList[2]  # user is valid, return role
-            return UserRole, UserName
+            if UserPwd == UserList[1]:
+                UserRole = UserList[2]  # user is valid, return role
+                return UserRole, UserName
+            else:
+                print(f"Invalid password for user {UserName}.")
+                return "NONE", UserName
     return UserRole, UserName
 #########################################################################################
 
@@ -109,7 +129,7 @@ def GetHourlyRate():
     return hourlyrate
 
 def GetTaxRate():
-    taxrate = float(input ("Enter tax rate: "))
+    taxrate = float(input ("Enter tax rate (e.g 0.2 for 20%): "))
     return taxrate
 
 def CalcTaxAndNetPay(hours, hourlyrate, taxrate):
@@ -187,18 +207,19 @@ if __name__ == "__main__":
     ##################################################
     # caling the method CreateUsers
     CreateUsers()
+    printuserinfo()
     
     print()
     print("##### Data Entry #####")
     # Assigning UserRole and UserName to Login
-    UserRole, UserName = Login()
+    UserRole, UserName = login()
      
     DetailsPrinted = False  
     EmpTotals = {}  
 
     # Checking to see if UserRole is equal to NONE
     if UserRole == "NONE":
-        print(UserName," is invalid.")
+        pass
     else:
         # checking to see if the UserRole is equal to ADMIN
         if UserRole.upper() == "ADMIN":
@@ -214,6 +235,7 @@ if __name__ == "__main__":
                 EmpDetail = fromdate + "|" + todate  + "|" + empname  + "|" + str(hours)  + "|" + str(hourlyrate)  + "|" + str(taxrate) + "\n"  
                 EmpFile.write(EmpDetail)
             #closing file to save data
-            EmpFile.close()    
+            EmpFile.close()
+               
        
         printinfo(DetailsPrinted)
