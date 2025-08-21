@@ -3,7 +3,19 @@
 # August 21, 2025
 
 from datetime import datetime
+
 ################################################################################
+# CLASS
+class User:
+    def __init__(self, username, password, role):
+        self.username = username
+        self.password = password
+        self.role = role
+
+    def __str__(self):
+        return f"{self.username}|{self.password}|{self.role}"
+################################################################################
+
 def CreateUsers():
     print('##### Create users, passwords, and roles #####')
     # Opening the file Users.txt in append mode
@@ -19,11 +31,12 @@ def CreateUsers():
         # calling function GetUserRole() and assigning the return value to userrole
         userrole = GetUserRole()
 
-        UserDetail = username + "|" + userpwd + "|" + userrole + "\n"  
-        UserFile.write(UserDetail)
+        # Using the User class
+        user = User(username, userpwd, userrole)
+        UserFile.write(str(user) + "\n")
+
     # Closing the file UserFile
     UserFile.close()    
-    
 
 def GetUserName():
     username = input("Enter user name or 'End' to quit: ")
@@ -78,6 +91,7 @@ def Login():
             return UserRole, UserName
     return UserRole, UserName
 #########################################################################################
+
 def GetEmpName():
     empname = input("Enter employee name or 'End' to quit: ")
     return empname
