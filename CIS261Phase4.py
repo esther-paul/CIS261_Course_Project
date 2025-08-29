@@ -17,12 +17,9 @@ class Login:
     def __str__(self):
         return f"{self.username}|{self.password}|{self.role}"
 
-    def display_info(self):
-        print(f"\nUser Information:")
-        print(f"User ID: {self.username}")
-        print(f"Password: {'*' * len(self.password)}") # Masking password for security
-        print(f"Authorization: {self.role}")
-
+    def display_info(self):        
+        print(f"User ID: {self.username} | Password: {'*' * len(self.password)} | Authorization: {self.role}")
+        
     def is_admin(self):
         return self.role.lower() == "admin"
 
@@ -47,6 +44,8 @@ def main_user_management():
         # calling function GetUserName and assigning the return value to username
         username = GetUserName()
         if (username.upper() == "END"):
+            print(f"\nUser Information:")
+            printuserinfo()
             break
 
         if username in existing_users:
@@ -234,16 +233,16 @@ def PrintTotals(EmpTotals):
     print(f'Total Income Tax:  {EmpTotals["TotTax"]:,.2f}')
     print(f'Total Net Pay: {EmpTotals["TotNetPay"]:,.2f}')
 
-###############################################################################
+################################################################################
 # MAIN APPLICATION
 def main_application():
     # Check if any users exist
     if not os.path.exists("Users.txt") or os.path.getsize("Users.txt") == 0:
-        print("No users found. Returning to User Management to create users.\n")
+        print("No users found. Returning to User Management to create users...\n")
         main_user_management()
         return
 
-    printuserinfo()
+    # printuserinfo()
     
     print()
     print("##### Main Application #####")
