@@ -234,7 +234,7 @@ def PrintTotals(EmpTotals):
     print(f'Total Income Tax:  {EmpTotals["TotTax"]:,.2f}')
     print(f'Total Net Pay: {EmpTotals["TotNetPay"]:,.2f}')
 
-################################################################################
+###############################################################################
 # MAIN APPLICATION
 def main_application():
     # Check if any users exist
