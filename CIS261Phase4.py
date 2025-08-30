@@ -179,6 +179,7 @@ def printinfo(DetailsPrinted):
         while True:
             rundate = input ("Enter start date for report (MM/DD/YYYY) or All for all data in file: ")
             if (rundate.upper() == "ALL"):
+                rundate = "ALL"
                 break
             try:
                 rundate = datetime.strptime(rundate, "%m/%d/%Y")
@@ -193,7 +194,9 @@ def printinfo(DetailsPrinted):
                 continue
             EmpList = EmpDetail.split("|")
             fromdate = EmpList[0]
-            if (str(rundate).upper() != "ALL"):
+            
+            if rundate!= "ALL":
+            # if (str(rundate).upper() != "ALL"):
                 checkdate = datetime.strptime(fromdate, "%m/%d/%Y")
                 if (checkdate < rundate):
                     continue        
